@@ -1,0 +1,23 @@
+services:
+  php:
+    build: .
+    volumes:
+      - ./project/config:/usr/local/etc/php/php.ini
+      - ./project/public:/var/www/html
+    ports:
+      - '8080:80'
+    restart: always
+  mysql:
+    container_name: entry_php_mysql_container
+    image: mysql:8.3
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+      - ./mysql/init:/docker-entrypoint-initdb.d
+    ports:
+      - '3307:3306'
+    env_file:
+      - .env
+    restart: always
+volumes:
+  mysql_data:

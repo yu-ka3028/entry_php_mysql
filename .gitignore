@@ -1,0 +1,6 @@
+# MySQLのdb
+mysql/data/
+
+# 秘匿情報
+.env
+
