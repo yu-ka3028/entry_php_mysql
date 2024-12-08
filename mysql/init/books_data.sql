@@ -21,4 +21,5 @@ CREATE TABLE books (
 -- books テーブルにデータを挿入
 INSERT INTO books (isbn, title, author, genre, price, image_url, detail)
 VALUES
-  ('9784297124373', 'プロを目指す人のためのRuby入門[改訂2版]', '伊藤 淳一', 'Ruby', 3278, 'https://i.gyazo.com/9cbb0ba3c2040dc3dc28ae5317a14a10.jpg', '通称チェリー本です。');
+  ('9784297124373', 'プロを目指す人のためのRuby入門[改訂2版]', '伊藤 淳一', 'Ruby', 3278, 'https://i.gyazo.com/9cbb0ba3c2040dc3dc28ae5317a14a10.jpg', '通称チェリー本です。'),
+  ('9784798144450', 'SQLゼロからはじめるデータベース操作', 'ミック', 'SQL', 2068, 'https://m.media-amazon.com/images/I/71wBt9D4wIL._SY522_.jpg', 'postgreSQLで実際にDB操作ができる' );

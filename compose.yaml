@@ -10,14 +10,15 @@ services:
   mysql:
     container_name: entry_php_mysql_container
     image: mysql:8.3
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     volumes:
-      - ./mysql/data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/my.cnf
       - ./mysql/init:/docker-entrypoint-initdb.d
     ports:
       - '3307:3306'
-    env_file:
-      - .env
     restart: always
 volumes:
   mysql_data:
