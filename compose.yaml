@@ -2,7 +2,7 @@ services:
   php:
     build: .
     volumes:
-      - ./project/config:/usr/local/etc/php/php.ini
+      ./php.ini:/usr/local/etc/php/php.ini
       - ./project/public:/var/www/html
     ports:
       - '8080:80'
