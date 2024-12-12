@@ -1,5 +1,5 @@
 -- データベースがなければ作成
-CREATE DATABASE IF NOT EXISTS books;
+CREATE DATABASE IF NOT EXISTS books CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- books データベースを使用
 USE books;
@@ -16,7 +16,7 @@ CREATE TABLE books (
     detail TEXT,                                  -- 本の詳細説明
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 作成日時
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- 更新日時
-);
+)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- books テーブルにデータを挿入
 INSERT INTO books (isbn, title, author, genre, price, image_url, detail)

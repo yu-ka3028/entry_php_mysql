@@ -2,11 +2,18 @@ services:
   php:
     build: .
     volumes:
-      ./php.ini:/usr/local/etc/php/php.ini
       - ./project/public:/var/www/html
+      - ./config.php:/var/www/config.php
+      - ./.env:/var/www/.env
+      - ./vendor:/var/www/vendor
     ports:
       - '8080:80'
     restart: always
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
   mysql:
     container_name: entry_php_mysql_container
     image: mysql:8.3

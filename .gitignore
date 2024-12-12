@@ -4,3 +4,5 @@ mysql/data/
 # 秘匿情報
 .env
 
+project/config/*
+mysql/my.cnf
