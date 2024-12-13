@@ -16,7 +16,7 @@ try {
         'CREATE TABLE IF NOT EXISTS users (
             user_id INT AUTO_INCREMENT,
             username VARCHAR(20) NOT NULL,
-            email VARCHAR(255) ,
+            email VARCHAR(255) NOT NULL UNIQUE,
             password VARCHAR(25) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             PRIMARY KEY(user_id)
@@ -33,6 +33,26 @@ try {
         echo "usersテーブルは作成されました。";
     } else {
         echo "usersテーブルの作成に失敗しました。";
+    }
+
+    // usersテーブルにデータを挿入
+    $users = [
+        ['username' => 'user1', 'email' => 'user1@example.com', 'password' => 'password1'],
+        ['username' => 'user2', 'email' => 'user2@example.com', 'password' => 'password2'],
+        ['username' => 'user3', 'email' => 'user3@example.com', 'password' => 'password3']
+    ];
+
+    $insertSql = 'INSERT IGNORE INTO users (username, email, password) 
+                  VALUES (:username, :email, :password)';
+
+    $stmt = $pdo->prepare($insertSql);
+
+    foreach ($users as $user) {
+        $stmt->execute([
+            ':username' => $user['username'],
+            ':email' => $user['email'],
+            ':password' => $user['password']
+        ]);
     }
 
     // booksを取得
