@@ -1,42 +1,103 @@
 <?php
-require '/var/www/config.php';
+require '/var/www/config.php';  //dockerでphp実行してるので/var/www
 
 // DSNの作成
-$dsn = "mysql:host=$host;dbname=$db;charset=utf8mb4"; // 明示的にUTF-8mb4を指定
+$dsn = "mysql:host=$host;dbname=$db;charset=UTF8";
 
 try {
+    // 例外処理を通知する
+    $options = [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION];
+
     // PDOで接続
-    $pdo = new PDO($dsn, $user, $password);
-    
-    // 接続後に文字セットをutf8mb4に設定
+    $pdo = new PDO($dsn, $user, $password, $options);
     $pdo->exec("SET NAMES 'utf8mb4'");
-    
-    echo "Connected to the $db database successfully!<br>";
 
-    // SQLクエリでデータを取得
-    $sql = "SELECT * FROM books";
-    $stmt = $pdo->query($sql);
+    $statements = [
+        'CREATE TABLE IF NOT EXISTS users (
+            user_id INT AUTO_INCREMENT,
+            username VARCHAR(20) NOT NULL,
+            email VARCHAR(255) ,
+            password VARCHAR(25) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY(user_id)
+        );'
+    ];
 
-    // データの表示
-    echo "<h1>Book List</h1>";
-    echo "<table border='1'>";
-    echo "<tr><th>ISBN</th><th>Title</th><th>Author</th><th>Genre</th><th>Price</th><th>Image</th><th>Detail</th></tr>";
-
-    // 各書籍を表示
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        echo "<tr>";
-        echo "<td>" . htmlspecialchars($row['isbn'], ENT_QUOTES, 'UTF-8') . "</td>";
-        echo "<td>" . htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8') . "</td>";
-        echo "<td>" . htmlspecialchars($row['author'], ENT_QUOTES, 'UTF-8') . "</td>";
-        echo "<td>" . htmlspecialchars($row['genre'], ENT_QUOTES, 'UTF-8') . "</td>";
-        echo "<td>" . htmlspecialchars($row['price'], ENT_QUOTES, 'UTF-8') . "</td>";
-        echo "<td><img src='" . htmlspecialchars($row['image_url'], ENT_QUOTES, 'UTF-8') . "' alt='book image' width='100'></td>";
-        echo "<td>" . htmlspecialchars($row['detail'], ENT_QUOTES, 'UTF-8') . "</td>";
-        echo "</tr>";
+    foreach ($statements as $statement) {
+        $pdo->exec($statement);
     }
 
-    echo "</table>";
+    // usersテーブルが作成されたか確認
+    $result = $pdo->query("SHOW TABLES LIKE 'users'");
+    if ($result->rowCount() > 0) {
+        echo "usersテーブルは作成されました。";
+    } else {
+        echo "usersテーブルの作成に失敗しました。";
+    }
+
+    // booksを取得
+    $stmt = $pdo->query("SELECT * FROM books");
+
 } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    echo "接続エラー: " . $e->getMessage();
+    exit; // エラー発生時はスクリプトを終了
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        img {
+            max-width: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>書籍一覧</h1>
+
+<?php if ($stmt->rowCount() > 0): ?>
+    <table>
+        <tr>
+            <th>ISBN</th>
+            <th>タイトル</th>
+            <th>著者</th>
+            <th>ジャンル</th>
+            <th>価格</th>
+            <th>画像</th>
+            <th>詳細</th>
+        </tr>
+
+        <?php while ($row = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+            <tr>
+                <td><?php echo htmlspecialchars($row['isbn'], ENT_QUOTES, 'UTF-8'); ?></td>
+                <td><?php echo htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?></td>
+                <td><?php echo htmlspecialchars($row['author'], ENT_QUOTES, 'UTF-8'); ?></td>
+                <td><?php echo htmlspecialchars($row['genre'], ENT_QUOTES, 'UTF-8'); ?></td>
+                <td><?php echo htmlspecialchars($row['price'], ENT_QUOTES, 'UTF-8'); ?></td>
+                <td><img src="<?php echo htmlspecialchars($row['image_url'], ENT_QUOTES, 'UTF-8'); ?>" alt="book image"></td>
+                <td><?php echo htmlspecialchars($row['detail'], ENT_QUOTES, 'UTF-8'); ?></td>
+            </tr>
+        <?php endwhile; ?>
+    </table>
+<?php else: ?>
+    <p>データが見つかりませんでした。</p>
+<?php endif; ?>
+
+</body>
+</html>
