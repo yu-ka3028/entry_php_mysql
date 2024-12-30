@@ -89,6 +89,8 @@ try {
 </head>
 <body>
 
+<a href="test.php">テストページ</a>
+
 <h1>書籍一覧</h1>
 
 <?php if ($stmt->rowCount() > 0): ?>
