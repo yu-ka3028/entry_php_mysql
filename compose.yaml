@@ -1,5 +1,5 @@
-services:
   php:
+services:
     build: .
     volumes:
       - ./project/public:/var/www/html
@@ -27,5 +27,18 @@ services:
     ports:
       - '3307:3306'
     restart: always
+  phpmyadmin:
+    image: phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_USER=${DB_USER}
+      - PMA_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    links:
+      - mysql
+    ports:
+       - '8060:80'
+    volumes:
+       - /sessions
 volumes:
   mysql_data:
