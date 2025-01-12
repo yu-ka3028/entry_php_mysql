@@ -44,3 +44,18 @@ try {
 <?php else: ?>
     <p>データが見つかりませんでした。</p>
 <?php endif; ?>
+
+<?php
+$data = [
+    '1' => 'One',
+    2 => 'Two'
+];
+
+echo $data['1']; // One
+echo $data[2];   // Two
+
+echo $data[1]; // One
+echo $data['2'];   // Two
+
+
+?>
