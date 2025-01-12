@@ -90,6 +90,7 @@ try {
 <body>
 
 <a href="test.php">テストページ</a>
+<a href="user.php">ユーザー登録</a>
 
 <h1>書籍一覧</h1>
 
