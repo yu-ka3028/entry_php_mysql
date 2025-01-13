@@ -1,5 +1,5 @@
-  php:
 services:
+  php:
     build: .
     volumes:
       - ./project/public:/var/www/html
