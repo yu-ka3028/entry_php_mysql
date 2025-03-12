@@ -13,7 +13,7 @@ require '/var/www/config.php';  //dockerでphp実行してるので/var/www
 <body>
 
 <a href="test.php">テストページ</a>
-<a href="user.php">ユーザー登録</a>
+<a href="staff_add.php">ユーザー登録</a>
 
 <h1>TOPページ</h1>
 
