@@ -8,4 +8,4 @@ project/config/*
 mysql/my.cnf
 
 メモ.php
-user_new.php
+project/public/user_new.php
