@@ -10,14 +10,17 @@
   <?php
 
   $staff_name = $_POST['name'];
-  $staff_name = $_POST['pass'];
-  $staff_name = $_POST['pass2'];
+  $staff_pass = $_POST['pass'];
+  var_dump($staff_pass);
+  $staff_pass2 = $_POST['pass2'];
+  var_dump($staff_pass2);
 
   $staff_name = htmlspecialchars($staff_name,ENT_QUOTES,'UTF-8');
   $staff_pass = htmlspecialchars($staff_pass,ENT_QUOTES,'UTF-8');
   $staff_pass2 = htmlspecialchars($staff_pass2,ENT_QUOTES,'UTF-8');
 
-  if(inset($staff_name = '')) {
+  if(!isset($staff_name)) {
+    $staff_name = '';
     print 'スタッフ名が入力されていません<br />';
   }
   else{
@@ -26,17 +29,24 @@
     print '<br />';
   }
 
-  var_dump($_POST['name']);
+  // 8.2からこれでは未定義になる
+  // if($staff_pass = '') {
+  //   print 'パスワードが入力されていません<br />';
+  // }
 
-  if($staff_pass = '') {
-    print 'パスワードが入力されていません<br />';
+  if (!isset($staff_pass)) {
+    $staff_pass = '';
+    print 'パスワードが入力されていません';
   }
 
-  if($staff_pass != $staff_pass2){
+
+  if(!isset($staff_pass2)){
+    $staff_pass2 = '';
+    $staff_pass != $staff_pass2;
     print 'パスワードが一致しません<br />';
   }
 
-  if($staff_name == '' || $staff_pass == '' || $staff_pass2){
+  if($staff_name == '' || $staff_pass == '' || $staff_pass != $staff_pass2){
     print '<form>';
     print '<input type = "button" onclick = "history.back()" value = "戻る">';
     print '</form>';
