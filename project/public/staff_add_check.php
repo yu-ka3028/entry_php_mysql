@@ -53,7 +53,6 @@
     // md5はもう新規では使われてない
     // $staff_pass = md5($staff_pass);
     $staff_pass = password_hash($staff_pass, PASSWORD_DEFAULT);
-    var_dump("var_dump:$staff_pass");
     print '<form method = "post"action = "staff_add_done.php">';
     print '<input type = "hidden" name = "name" value = "'.$staff_name.'">';
     print '<input type = "hidden" name = "pass" value = "'.$staff_pass.'">';
